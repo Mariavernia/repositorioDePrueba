@@ -2,5 +2,8 @@ package paquete_de_prueba;
 
 public class ClaseC1 {
 
-    //Modificación issue#1
+    private String id;
+
+    private String name;
+
 }
