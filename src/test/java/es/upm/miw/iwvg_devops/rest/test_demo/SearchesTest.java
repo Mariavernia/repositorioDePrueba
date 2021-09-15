@@ -56,4 +56,33 @@ public class SearchesTest {
         assertEquals(new Double(0),
                 new Searches().findFirstDecimalFractionByUserName("Oscar"));
     }
+    @Test
+    void testFindDecimalImproperFractionByUserName(){
+        assertEquals(List.of(2.0, 1.3333333333333333),
+                new Searches().findDecimalImproperFractionByUserName("Ana")
+                .collect(Collectors.toList()));
+    }
+    @Test
+    void testFindFirstProperFractionByUserId(){
+        assertEquals(new Fraction(-1, 5),
+                new Searches().findFirstProperFractionByUserId("2"));
+    }
+    @Test
+    void testFindUserFamilyNameByImproperFraction() {
+        assertEquals(List.of("Fernandez", "Blanco", "López", "Blanco", "Torres"),
+                new Searches().findUserFamilyNameByImproperFraction()
+                .collect(Collectors.toList()));
+    }
+    @Test
+    void testFindHighestFraction() {
+        assertEquals(new Fraction(1, 0),
+                new Searches().findHighestFraction());
+    }
+    @Test
+    void testFindUserNameByAnyImproperFraction() {
+        assertEquals(List.of("Oscar", "Ana", "Oscar", "Antonio", "Paula"),
+                new Searches().findUserNameByAnyImproperFraction()
+                        .collect(Collectors.toList()));
+    }
+
 }

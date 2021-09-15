@@ -34,14 +34,14 @@ public class Searches {
     public Stream<String> findUserFamilyNameInitialByAnyProperFraction() {
         return new UsersDatabase().findAll()
                 .filter(user -> user.getFractions().stream()
-                        .anyMatch(fraction -> fraction.properFraction()))
+                        .anyMatch(Fraction::properFraction))
                 .map(User::initialsFamilyName);
     }
 
     public Stream<String> findUserIdByAnyProperFraction() {
         return new UsersDatabase().findAll()
                 .filter(user -> user.getFractions().stream()
-                        .anyMatch(fraction -> fraction.properFraction()))
+                        .anyMatch(Fraction::properFraction))
                 .map(User::getId);
     }
 
@@ -74,28 +74,50 @@ public class Searches {
     public Stream<String> findUserIdByAllProperFraction() {
         return new UsersDatabase().findAll()
                 .filter(user -> user.getFractions().stream()
-                        .allMatch(fraction -> fraction.properFraction()))
+                        .allMatch(Fraction::properFraction))
                 .map(User::getId);
     }
 
     public Stream<Double> findDecimalImproperFractionByUserName(String name) {
-        return Stream.empty();
+        return new UsersDatabase().findAll()
+                .filter(user -> name.equals(user.getName()))
+                .flatMap(fractions -> fractions.getFractions().stream())
+                .filter(Fraction::improperFraction)
+                .map(Fraction::decimal);
+
     }
 
     public Fraction findFirstProperFractionByUserId(String id) {
-        return null;
+        return new UsersDatabase().findAll()
+                .filter(user -> id.equals(user.getId()))
+                .flatMap(fractions -> fractions.getFractions().stream())
+                .filter(Fraction::properFraction)
+                .findFirst()
+                .get();
+
     }
 
     public Stream<String> findUserFamilyNameByImproperFraction() {
-        return Stream.empty();
+        return new UsersDatabase().findAll()
+                .filter(fractions -> fractions.getFractions().stream()
+                        .anyMatch(Fraction::improperFraction))
+                .map(User::getFamilyName);
     }
 
     public Fraction findHighestFraction() {
-        return null;
+        return new UsersDatabase().findAll()
+                .flatMap(fractions -> fractions.getFractions().stream())
+                .filter(Fraction::improperFraction)
+                .reduce(Fraction::highestFraction)
+                .get();
+
     }
 
     public Stream<String> findUserNameByAnyImproperFraction() {
-        return Stream.empty();
+        return new UsersDatabase().findAll()
+                .filter(fractions -> fractions.getFractions().stream()
+                        .anyMatch(Fraction::improperFraction))
+                .map(User::getName);
     }
 
     public Stream<String> findUserFamilyNameByAllNegativeSignFractionDistinct() {

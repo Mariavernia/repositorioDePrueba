@@ -74,6 +74,19 @@ public class Fraction {
                 (int) this.denominator * fraction.getNumerator()
         );
     }
+    public boolean improperFraction()
+    {
+        return this.denominator < this.numerator;
+    }
+    public Fraction highestFraction(Fraction fraction)
+    {
+        Fraction fraction2 = new Fraction(this.numerator, this.denominator);
+        if(fraction2.decimal() < fraction.decimal())
+        {
+            return fraction;
+        }
+        return fraction2;
+   }
 
     @Override
     public String toString() {
