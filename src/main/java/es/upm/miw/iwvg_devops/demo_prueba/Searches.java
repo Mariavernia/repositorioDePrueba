@@ -2,6 +2,7 @@ package es.upm.miw.iwvg_devops.demo_prueba;
 
 import org.apache.logging.log4j.LogManager;
 
+import java.awt.geom.QuadCurve2D;
 import java.util.stream.Stream;
 
 public class Searches {
@@ -33,40 +34,48 @@ public class Searches {
     public Stream<String> findUserFamilyNameInitialByAnyProperFraction() {
         return new UsersDatabase().findAll()
                 .filter(user -> user.getFractions().stream()
-                        .anyMatch(fraction -> fraction.getDenominator() > fraction.getNumerator()))
+                        .anyMatch(fraction -> fraction.properFraction()))
                 .map(User::initialsFamilyName);
     }
 
     public Stream<String> findUserIdByAnyProperFraction() {
         return new UsersDatabase().findAll()
                 .filter(user -> user.getFractions().stream()
-                        .anyMatch(fraction -> fraction.getDenominator() > fraction.getNumerator()))
+                        .anyMatch(fraction -> fraction.properFraction()))
                 .map(User::getId);
     }
 
-    /*public Fraction findFractionMultiplicationByUserFamilyName(String familyName) {
+    public Fraction findFractionMultiplicationByUserFamilyName(String familyName) {
         return new UsersDatabase().findAll()
-                .peek(x -> LogManager.getLogger(this.getClass()).info("before: " + x))
                 .filter(user -> familyName.equals(user.getFamilyName()))
-                .peek(x -> LogManager.getLogger(this.getClass()).info("after: " + x))
-                .flatMap(user -> user.getFractions().stream())
-                .map(Fraction::getMultiplication);
+                .flatMap(fractions -> fractions.getFractions().stream())
+                .reduce(Fraction::multiplication)
+                .orElse(new Fraction());
     }
+
 
     public Fraction findFirstFractionDivisionByUserId(String id) {
         return new UsersDatabase().findAll()
-                .filter(fraction -> id.equals(fraction.getFractions().stream().findFirst()))
-                .map(Fraction::decimal);
+                .filter(user -> id.equals(user.getId()))
+                .flatMap(fractions -> fractions.getFractions().stream())
+                .limit(2)
+                .reduce(Fraction::division)
+                .orElse(new Fraction());
     }
 
     public Double findFirstDecimalFractionByUserName(String name) {
         return new UsersDatabase().findAll()
-                .filter(fraction -> name.equals(fraction.getFractions().stream().findFirst()))
-                .map(Fraction::decimal);
-    }*/
+                .filter(user -> name.equals(user.getName()))
+                .flatMap(fractions -> fractions.getFractions().stream())
+                .findFirst()
+                .get().decimal();
+    }
 
     public Stream<String> findUserIdByAllProperFraction() {
-        return Stream.empty();
+        return new UsersDatabase().findAll()
+                .filter(user -> user.getFractions().stream()
+                        .allMatch(fraction -> fraction.properFraction()))
+                .map(User::getId);
     }
 
     public Stream<Double> findDecimalImproperFractionByUserName(String name) {

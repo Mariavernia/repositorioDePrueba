@@ -1,4 +1,7 @@
 package es.upm.miw.iwvg_devops.demo_prueba;
+
+import java.util.Objects;
+
 /**
  * Conceptos: Las fracciones propias son aquellas cuyo numerador es menor que el denominador
  * <p>
@@ -56,10 +59,21 @@ public class Fraction {
     public double decimal() {
         return (double) numerator / denominator;
     }
-
-    //public Fraction getMultiplication() {
-        //return this.numerator * this.denominator;
-    //}
+    public boolean properFraction(){
+        return this.getDenominator() > this.getNumerator();
+    }
+    public Fraction multiplication(Fraction fraction) {
+        return new Fraction(
+            (int) this.numerator * fraction.getNumerator(),
+            (int) this.denominator * fraction.getDenominator()
+        );
+    }
+    public Fraction division(Fraction fraction) {
+        return new Fraction(
+                (int) this.numerator * fraction.getDenominator(),
+                (int) this.denominator * fraction.getNumerator()
+        );
+    }
 
     @Override
     public String toString() {
@@ -67,5 +81,18 @@ public class Fraction {
                 "numerator=" + numerator +
                 ", denominator=" + denominator +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fraction fraction = (Fraction) o;
+        return numerator == fraction.numerator && denominator == fraction.denominator;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numerator, denominator);
     }
 }

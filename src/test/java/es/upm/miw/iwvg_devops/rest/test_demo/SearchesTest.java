@@ -1,5 +1,6 @@
 package es.upm.miw.iwvg_devops.rest.test_demo;
 
+import es.upm.miw.iwvg_devops.demo_prueba.Fraction;
 import es.upm.miw.iwvg_devops.demo_prueba.Searches;
 import org.junit.jupiter.api.Test;
 
@@ -27,32 +28,38 @@ public class SearchesTest {
                 .collect(Collectors.toList()));
     }
 
+
+    @Test
+    void testFindUserFamilyNameInitialByAnyProperFraction() {
+        assertEquals(List.of("F.", "B.", "L.", "B."), new Searches().findUserFamilyNameInitialByAnyProperFraction()
+                .collect(Collectors.toList()));
+    }
+
     @Test
     void testFindUserIdByAnyProperFraction() {
         assertEquals(List.of("1", "2", "3", "5 "), new Searches().findUserIdByAnyProperFraction()
                 .collect(Collectors.toList()));
-
     }
 
-    void testFindUserNameByAnyImproperFraction() {
+    @Test
+    void testFractionMultiplicationByUserFamilyName(){
+        assertEquals(new Fraction(0, 1),
+                new Searches().findFractionMultiplicationByUserFamilyName("Fernandez"));
     }
-
-    void testFindUserFamilyNameByAllSignFractionDistinct() {
+    @Test
+    void testFindFirstFractionDivisionByUserId(){
+        assertEquals(new Fraction(0, 1),
+                new Searches().findFirstFractionDivisionByUserId("1"));
     }
-
-    void testFindDecimalFractionByUserName() {
+    @Test
+    void testFindFirstDecimalFractionByUserName(){
+        assertEquals(new Double(0),
+                new Searches().findFirstDecimalFractionByUserName("Oscar"));
     }
-
-    void testFindDecimalFractionBySignFraction() {
+    @Test
+    void testFindUserIdByAllProperFraction(){
+        assertEquals(List.of("1", "2", "3", "5"),
+                new Searches().findUserIdByAllProperFraction()
+                        .collect(Collectors.toList()));
     }
-
-    void testFindFractionAdditionByUserId() {
-    }
-
-    void testFindFractionSubtractionByUserName() {
-    }
-
-    void testFindFractionMultiplicationByUserFamilyName() {
-    }
-
 }
