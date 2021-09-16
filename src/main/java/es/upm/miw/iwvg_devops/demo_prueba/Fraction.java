@@ -84,12 +84,11 @@ public class Fraction {
     }
 
     public Fraction highestFraction(Fraction fraction) {
-        Fraction fraction2 = new Fraction(this.numerator, this.denominator);
-        if(fraction2.decimal() < fraction.decimal())
+        if(this.decimal() < fraction.decimal())
         {
             return fraction;
         }
-        return fraction2;
+        return this;
    }
 
     @Override

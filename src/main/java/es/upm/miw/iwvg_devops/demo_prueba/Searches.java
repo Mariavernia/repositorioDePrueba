@@ -17,9 +17,7 @@ public class Searches {
 
     public Stream<Integer> findFractionNumeratorByUserFamilyName(String userFamilyName) {
         return new UsersDatabase().findAll()
-                .peek(x -> LogManager.getLogger(this.getClass()).info("before: " + x))
                 .filter(user -> userFamilyName.equals(user.getFamilyName()))
-                .peek(x -> LogManager.getLogger(this.getClass()).info("after: " + x))
                 .flatMap(user -> user.getFractions().stream())
                 .map(Fraction::getNumerator);
     }
@@ -125,7 +123,10 @@ public class Searches {
     }
 
     public Stream<Double> findDecimalFractionByUserName(String name) {
-        return Stream.empty();
+        return new UsersDatabase().findAll()
+                .filter(user -> name.equals(user.getName()))
+                .flatMap(fractions -> fractions.getFractions().stream())
+                .map(Fraction::decimal);
     }
 
     public Stream<Double> findDecimalFractionByNegativeSignFraction() {
