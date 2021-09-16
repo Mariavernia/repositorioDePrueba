@@ -6,8 +6,7 @@ import java.awt.geom.QuadCurve2D;
 import java.util.stream.Stream;
 
 public class Searches {
-    //Holaaaaaaaa primera pruebita
-    
+
     public Stream<String> findUserFamilyNameByUserNameDistinct(String userName) {
         return new UsersDatabase().findAll()
                 .filter(user -> userName.equals(user.getName()))
@@ -51,7 +50,6 @@ public class Searches {
                 .orElse(new Fraction());
     }
 
-
     public Fraction findFirstFractionDivisionByUserId(String id) {
         return new UsersDatabase().findAll()
                 .filter(user -> id.equals(user.getId()))
@@ -66,7 +64,8 @@ public class Searches {
                 .filter(user -> name.equals(user.getName()))
                 .flatMap(fractions -> fractions.getFractions().stream())
                 .findFirst()
-                .get().decimal();
+                .map(Fraction::decimal)
+                .orElse(Double.NaN);
     }
 
     public Stream<String> findUserIdByAllProperFraction() {
@@ -91,7 +90,7 @@ public class Searches {
                 .flatMap(fractions -> fractions.getFractions().stream())
                 .filter(Fraction::properFraction)
                 .findFirst()
-                .get();
+                .orElse(new Fraction());
 
     }
 
@@ -107,8 +106,7 @@ public class Searches {
                 .flatMap(fractions -> fractions.getFractions().stream())
                 .filter(Fraction::improperFraction)
                 .reduce(Fraction::highestFraction)
-                .get();
-
+                .orElse(new Fraction());
     }
 
     public Stream<String> findUserNameByAnyImproperFraction() {
