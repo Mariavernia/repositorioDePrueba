@@ -64,14 +64,14 @@ public class Fraction {
     }
     public Fraction multiplication(Fraction fraction) {
         return new Fraction(
-            (int) this.numerator * fraction.getNumerator(),
-            (int) this.denominator * fraction.getDenominator()
+            this.numerator * fraction.getNumerator(),
+            this.denominator * fraction.getDenominator()
         );
     }
     public Fraction division(Fraction fraction) {
         return new Fraction(
-                (int) this.numerator * fraction.getDenominator(),
-                (int) this.denominator * fraction.getNumerator()
+                 this.numerator * fraction.getDenominator(),
+                 this.denominator * fraction.getNumerator()
         );
     }
     public boolean improperFraction()

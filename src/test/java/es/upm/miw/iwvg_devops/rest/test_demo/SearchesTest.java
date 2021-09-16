@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SearchesTest {
+class SearchesTest {
     @Test
     void testFindUserFamilyNameByUserNameDistinct() {
         assertEquals(List.of("Torres"), new Searches().findUserFamilyNameByUserNameDistinct("Paula")
