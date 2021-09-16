@@ -59,27 +59,31 @@ public class Fraction {
     public double decimal() {
         return (double) numerator / denominator;
     }
+
     public boolean properFraction(){
         return this.getDenominator() > this.getNumerator();
     }
+
     public Fraction multiplication(Fraction fraction) {
         return new Fraction(
             this.numerator * fraction.getNumerator(),
             this.denominator * fraction.getDenominator()
         );
     }
+
     public Fraction division(Fraction fraction) {
         return new Fraction(
                  this.numerator * fraction.getDenominator(),
                  this.denominator * fraction.getNumerator()
         );
     }
+
     public boolean improperFraction()
     {
         return this.denominator < this.numerator;
     }
-    public Fraction highestFraction(Fraction fraction)
-    {
+
+    public Fraction highestFraction(Fraction fraction) {
         Fraction fraction2 = new Fraction(this.numerator, this.denominator);
         if(fraction2.decimal() < fraction.decimal())
         {
